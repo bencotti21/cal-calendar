@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreMemoRequest;
 use App\Http\Requests\UpdateMemoRequest;
 use App\Models\Memo;
+use Illuminate\Support\Facades\Auth;
 
 class MemoController extends Controller
 {
@@ -33,6 +34,15 @@ class MemoController extends Controller
     public function store(StoreMemoRequest $request)
     {
         //
+        $memo = new Memo();
+        $memo->user_id = Auth::id();
+        // $memo->date = $request->date;
+        $memo->date = date('Y-m-d'); //検証用
+        $memo->memo = $request->memo;
+        $memo->number = $request->number;
+        $memo->tag = $request->tag;
+        $memo->save();
+        return back();
     }
 
     /**
