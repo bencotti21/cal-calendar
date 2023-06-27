@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMemoRequest;
 use App\Http\Requests\UpdateMemoRequest;
 use App\Models\Memo;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
 
 class MemoController extends Controller
 {
@@ -34,13 +35,15 @@ class MemoController extends Controller
     public function store(StoreMemoRequest $request)
     {
         //
+        $inputs=$this->validator($request);
+
         $memo = new Memo();
         $memo->user_id = Auth::id();
         // $memo->date = $request->date;
         $memo->date = date('Y-m-d'); //検証用
-        $memo->memo = $request->memo;
-        $memo->number = $request->number;
-        $memo->tag = $request->tag;
+        $memo->memo = $inputs['memo'];
+        $memo->number = $inputs['number'];
+        $memo->tag = $inputs['tag'];
         $memo->save();
         return back();
     }
@@ -75,5 +78,21 @@ class MemoController extends Controller
     public function destroy(Memo $memo)
     {
         //
+    }
+
+    protected function validator(FormRequest $request)
+    {
+        return $request->validate([
+            'memo' => 'required|max:255',
+            'number' => 'min:-2147483648|max:2147483647',
+            'tag' => 'max:255'
+        ],
+        [
+            'memo.required' => 'メモを入力してください。',
+            'memo.max' => 'メモは255文字以内にしてください。',
+            'number.min' => '数は-2147483648以上にしてください。',
+            'number.max' => '数は2147483647以下にしてください。',
+            'tag.max' => 'タグは255文字以内にしてください。',
+        ]);
     }
 }
