@@ -42,7 +42,9 @@ class MemoController extends Controller
         // $memo->date = $request->date;
         $memo->date = date('Y-m-d'); //検証用
         $memo->memo = $inputs['memo'];
-        $memo->number = $inputs['number'];
+        if ($request->number) {
+            $memo->number = $inputs['number'];
+        }
         $memo->tag = $inputs['tag'];
         $memo->save();
         return back();
