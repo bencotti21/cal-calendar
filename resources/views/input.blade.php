@@ -13,6 +13,37 @@
           <form method="POST" action="{{ route('memo.store') }}">
             @csrf
             <dev>
+              <x-input-label>日付</x-input-label>
+              <dev>
+                <input type='number' name='year' value="{{ $year }}" class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+              </dev>
+              <dev>年</dev>
+              <dev>
+                <select name='month' class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                  @for ($i = 1; $i <= 12; $i++)
+                    @if ($i == $month)
+                      <option value="{{ $i }}" selected>{{ $i }}</option>
+                    @else
+                      <option value="{{ $i }}">{{ $i }}</option>
+                    @endif
+                  @endfor
+                </select>
+              </dev>
+              <dev>月</dev>
+              <dev>
+                <select name='day' class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
+                  @for ($i = 1; $i <= $lastDay; $i++)
+                    @if ($i == $day)
+                      <option value="{{ $i }}" selected>{{ $i }}</option>
+                    @else
+                      <option value="{{ $i }}">{{ $i }}</option>
+                    @endif
+                  @endfor
+                </select>
+              </dev>
+              <dev>日</dev>
+            </dev>
+            <dev>
               <x-input-label>メモ</x-input-label>
               <x-text-input type='text' name='memo'></x-text-input>
             </dev>
