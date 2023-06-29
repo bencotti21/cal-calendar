@@ -5,6 +5,7 @@
     </h2>
   </x-slot>
 
+  <x-input-error class="m-4" :messages="$errors->all()"></x-input-error>
   <form method="GET" action="{{ route('calendar.show') }}">
   <dev>
     <input type='number' name='year' value="{{ $year }}" class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
