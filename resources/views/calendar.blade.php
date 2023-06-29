@@ -45,7 +45,9 @@
           <tr>
             @foreach($week as $day)
               <td>
-                <span>{{ $day }}</span>
+                <a href="{{ route('memo.create', ['year' => $year, 'month' => $month, 'day' => $day]) }}">
+                  <span>{{ $day }}</span>
+                </a>
               </td>
             @endforeach
           </tr>

@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateMemoRequest;
 use App\Models\Memo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class MemoController extends Controller
 {
@@ -23,10 +25,22 @@ class MemoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         //
-        return view('input');
+        if ($request->year && $request->month && $request->day) {
+            $year = $request->year;
+            $month = $request->month;
+            $day = $request->day;
+        } else {
+            $year = date('Y');
+            $month = date('n');
+            $day = date('j');
+        }
+        // 月末の日付
+        $lastDay = Carbon::create($year, $month)->lastOfMonth()->day;
+
+        return view('input', compact('year', 'month', 'day', 'lastDay'));
     }
 
     /**
