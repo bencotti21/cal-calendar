@@ -26,6 +26,13 @@
                   <td><span>{{ $memo->number }}</span></td>
                   <td><span>{{ $memo->tag }}</span></td>
                   <td><a href="{{ route('memo.edit', ['memo' => $memo]) }}">[編集]</a></td>
+                  <td>
+                    <form method="POST" action="{{ route('memo.destroy', ['memo' => $memo]) }}">
+                      @csrf
+                      @method('DELETE')
+                      <x-primary-button onclick="return confirm('メモを削除しますか？')">削除</x-primary-button>
+                    </form>
+                  </td>
                 </tr>
               @endforeach
             </tbody>
