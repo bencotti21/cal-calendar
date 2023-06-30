@@ -89,6 +89,14 @@ class MemoController extends Controller
     public function edit(Memo $memo)
     {
         //
+        $date = explode("-", $memo->date);
+        $year = $date[0];
+        $month = $date[1];
+        $day = $date[2];
+        // 月末の日付
+        $lastDay = Carbon::create($year, $month)->lastOfMonth()->day;
+
+        return view('edit', compact('memo', 'year', 'month', 'day', 'lastDay'));
     }
 
     /**
