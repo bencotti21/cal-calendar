@@ -114,7 +114,7 @@ class MemoController extends Controller
             'month' => 'required|integer|between:1,12',
             'day' => 'required|integer|min:1',
             'memo' => 'required|max:255',
-            'number' => 'min:-2147483648|max:2147483647',
+            'number' => 'integer|min:-2147483648|max:2147483647',
             'tag' => 'max:255'
         ],
         [
