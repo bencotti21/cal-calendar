@@ -10,8 +10,9 @@
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <x-input-error class="m-4" :messages="$errors->all()"></x-input-error>
         <div class="p-6 text-gray-900">
-          <form method="POST" action="{{ route('memo.store') }}">
+          <form method="POST" action="{{ route('memo.update', ['memo' => $memo]) }}">
             @csrf
+            @method('PUT')
             <dev>
               <x-input-label>日付</x-input-label>
               <dev>
