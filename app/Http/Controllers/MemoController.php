@@ -8,6 +8,7 @@ use App\Models\Memo;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
 class MemoController extends Controller
@@ -49,12 +50,22 @@ class MemoController extends Controller
     public function store(StoreMemoRequest $request)
     {
         //
-        $inputs=$this->validator($request);
+        $inputs = $this->validator($request);
+
+        // 日付が月末以前か検証するインスタンスを作成
+        $lastDay = Carbon::create($inputs['year'], $inputs['month'])->lastOfMonth()->day;
+        $input = ['day' => $inputs['day']];
+        $rule = ['day' => "integer|max:$lastDay"];
+        $message = ['day' => '月末日以前の日付を入力してください。'];
+        $validator = Validator::make($input, $rule, $message);
+        // 検証
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
 
         $memo = new Memo();
         $memo->user_id = Auth::id();
-        // $memo->date = $request->date;
-        $memo->date = date('Y-m-d'); //検証用
+        $memo->date = $inputs['year'] . "-" . $inputs['month'] . "-" . $inputs['day'];
         $memo->memo = $inputs['memo'];
         if ($request->number) {
             $memo->number = $inputs['number'];
@@ -99,11 +110,18 @@ class MemoController extends Controller
     protected function validator(FormRequest $request)
     {
         return $request->validate([
+            'year' => 'required|digits:4',
+            'month' => 'required|integer|between:1,12',
+            'day' => 'required|integer|min:1',
             'memo' => 'required|max:255',
             'number' => 'min:-2147483648|max:2147483647',
             'tag' => 'max:255'
         ],
         [
+            'year.required' => '年を入力してください。',
+            'year.digits' => '年は4桁の整数で入力してください。',
+            'month' => '月が不正な値です。',
+            'day' => '日が不正な値です。',
             'memo.required' => 'メモを入力してください。',
             'memo.max' => 'メモは255文字以内にしてください。',
             'number.min' => '数は-2147483648以上にしてください。',
