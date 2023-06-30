@@ -135,6 +135,8 @@ class MemoController extends Controller
     public function destroy(Memo $memo)
     {
         //
+        $memo->delete();
+        return redirect()->route('memo.index');
     }
 
     protected function validator(FormRequest $request)
