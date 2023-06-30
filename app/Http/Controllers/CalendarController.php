@@ -8,7 +8,7 @@ use App\Libraries\Calendar;
 class CalendarController extends Controller
 {
     //
-    public function show(Request $request) {
+    public function index(Request $request) {
         if ($request->year || $request->month) {
             $inputs = $this->validator($request);
             $date = $inputs['year'] . "-" . $inputs['month'];
