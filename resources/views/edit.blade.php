@@ -33,7 +33,7 @@
               <dev>月</dev>
               <dev>
                 <select name='day' class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
-                  @for ($i = 1; $i <= $lastDay; $i++)
+                  @for ($i = 1; $i <= 31; $i++)
                     @if ($i == $day)
                       <option value="{{ $i }}" selected>{{ $i }}</option>
                     @else
