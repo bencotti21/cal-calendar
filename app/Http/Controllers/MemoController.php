@@ -125,7 +125,7 @@ class MemoController extends Controller
         }
         $memo->tag = $inputs['tag'];
         $memo->save();
-        
+
         return redirect()->route('memo.index');
     }
 
@@ -144,7 +144,7 @@ class MemoController extends Controller
             'month' => 'required|integer|between:1,12',
             'day' => 'required|integer|min:1',
             'memo' => 'required|max:255',
-            'number' => 'integer|min:-2147483648|max:2147483647',
+            'number' => 'integer|min:-2147483648|max:2147483647|nullable',
             'tag' => 'max:255'
         ],
         [
