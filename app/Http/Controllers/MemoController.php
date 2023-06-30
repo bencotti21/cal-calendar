@@ -105,6 +105,28 @@ class MemoController extends Controller
     public function update(UpdateMemoRequest $request, Memo $memo)
     {
         //
+        $inputs = $this->validator($request);
+
+        // 日付が月末以前か検証するインスタンスを作成
+        $lastDay = Carbon::create($inputs['year'], $inputs['month'])->lastOfMonth()->day;
+        $input = ['day' => $inputs['day']];
+        $rule = ['day' => "integer|max:$lastDay"];
+        $message = ['day' => '月末日以前の日付を入力してください。'];
+        $validator = Validator::make($input, $rule, $message);
+        // 検証
+        if ($validator->fails()) {
+            return back()->withErrors($validator);
+        }
+
+        $memo->date = $inputs['year'] . "-" . $inputs['month'] . "-" . $inputs['day'];
+        $memo->memo = $inputs['memo'];
+        if ($request->number) {
+            $memo->number = $inputs['number'];
+        }
+        $memo->tag = $inputs['tag'];
+        $memo->save();
+        
+        return redirect()->route('memo.index');
     }
 
     /**
