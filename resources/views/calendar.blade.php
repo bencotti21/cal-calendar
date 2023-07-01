@@ -6,7 +6,7 @@
   </x-slot>
 
   <x-input-error class="m-4" :messages="$errors->all()"></x-input-error>
-  <form method="GET" action="{{ route('calendar.show') }}">
+  <form method="GET" action="{{ route('calendar.index') }}">
   <dev>
     <input type='number' name='year' value="{{ $year }}" class='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm'>
   </dev>
@@ -45,7 +45,7 @@
           <tr>
             @foreach($week as $day)
               <td>
-                <a href="{{ route('memo.create', ['year' => $year, 'month' => $month, 'day' => $day]) }}">
+                <a href="{{ route('calendar.show', ['year' => $year, 'month' => $month, 'day' => $day]) }}">
                   <span>{{ $day }}</span>
                 </a>
               </td>

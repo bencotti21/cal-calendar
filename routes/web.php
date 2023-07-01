@@ -34,4 +34,5 @@ require __DIR__.'/auth.php';
 
 Route::resource('memo', MemoController::class);
 
-Route::get('/calendar', [CalendarController::class, 'show'])->name('calendar.show');
+Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+Route::get('/calendar/date', [CalendarController::class, 'show'])->name('calendar.show');
