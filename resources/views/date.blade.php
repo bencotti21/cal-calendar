@@ -39,6 +39,9 @@
       <x-primary-button>表示する</x-primary-button>
     </dev>
   </form>
+  <a href="{{ route('memo.create', ['year' => $year, 'month' => $month, 'day' => $day]) }}">
+    <x-secondary-button>新規作成</x-secondary-button>
+  </a>
   <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
