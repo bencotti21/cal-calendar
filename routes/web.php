@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::resource('memo', MemoController::class);
+Route::get('/total', [MemoController::class, 'total'])->name('memo.total');
 
 Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 Route::get('/calendar/date', [CalendarController::class, 'show'])->name('calendar.show');
