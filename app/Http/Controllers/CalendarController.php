@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use App\Libraries\Calendar;
 use App\Models\Memo;
 use Carbon\Carbon;
@@ -43,7 +44,7 @@ class CalendarController extends Controller
         $month = $inputs['month'];
         $day = $inputs['day'];
         $date = $year . "-" . $month . "-" . $day;
-        $memos = Memo::where('date', '=', $date)->get();
+        $memos = Memo::whereUser_id(Auth::id())->where('date', '=', $date)->get();
 
         return view('date', compact('year', 'month', 'day', 'memos'));
     }
