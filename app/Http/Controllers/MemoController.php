@@ -20,7 +20,7 @@ class MemoController extends Controller
     public function index()
     {
         //
-        $memos = Memo::all();
+        $memos = Memo::whereUser_id(Auth::id())->get();
         return view('index', ['memos' => $memos]);
     }
 
@@ -178,7 +178,8 @@ class MemoController extends Controller
             $numberOrder = $request->numberOrder;
             $tag = $inputs['tag'];
 
-            $memos = Memo::when($tag, function ($query) use ($tag) {$query->whereTag($tag);})
+            $memos = Memo::whereUser_id(Auth::id())
+                    ->when($tag, function ($query) use ($tag) {$query->whereTag($tag);})
                     ->whereBetween('date',[$minDate, $maxDate])
                     ->select('memo','tag')
                     ->selectRaw('SUM(number) as total_number, MIN(date) as earliest_date, MAX(date) as latest_date')
