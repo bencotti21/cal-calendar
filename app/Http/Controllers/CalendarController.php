@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Libraries\Calendar;
 use App\Models\Memo;
+use App\Libraries\Common;
 use Carbon\Carbon;
 
 class CalendarController extends Controller
@@ -30,11 +31,7 @@ class CalendarController extends Controller
         $inputs = $this->showValidator($request);
 
         // 日付が月末以前か検証するインスタンスを作成
-        $lastDay = Carbon::create($inputs['year'], $inputs['month'])->lastOfMonth()->day;
-        $input = ['day' => $inputs['day']];
-        $rule = ['day' => "integer|max:$lastDay"];
-        $message = ['day' => '月末日以前の日付を入力してください。'];
-        $validator = Validator::make($input, $rule, $message);
+        $validator = Common::dayValidator($inputs['year'], $inputs['month'], $inputs['day']);
         // 検証
         if ($validator->fails()) {
             return back()->withErrors($validator);
